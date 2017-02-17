@@ -1,7 +1,6 @@
-layout: fun
-title: a
+title: hexo
 date: 2016-11-26 12:33:41
-tags: test
+tags: hexo
 ---
 
 
