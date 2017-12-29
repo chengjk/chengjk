@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Jacky's blog
-subtitle:
+title: something
+subtitle: Jacky's blog
 description:
 author: Jacky Cheng
 language: zh-CN
@@ -60,6 +60,16 @@ time_format: HH:mm:ss
 per_page: 10
 pagination_dir: page
 
+math:
+  engine: 'mathjax' # or 'katex'
+  mathjax: true
+    
+      # MathJax config
+  katex:
+    css: custom_css_source
+    js: custom_js_source # not used
+    config:
+      # KaTeX config
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
