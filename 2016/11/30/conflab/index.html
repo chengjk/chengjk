@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Jacky's blog"><title>conflab | Jacky's blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','UA-111713461-1','auto');ga('send','pageview');
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">conflab</h1><a id="logo" href="/.">Jacky's blog</a><p class="description">学而不思则罔，思而不学则殆！</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">conflab</h1><div class="post-meta">Nov 30, 2016</div><a class="disqus-comment-count" data-disqus-identifier="2016/11/30/conflab/" href="/2016/11/30/conflab/#disqus_thread"></a><div class="post-content"><p>当前版本v1.0.1,详细见<a href="./RELEASE.md">RELEASE.md</a>。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>Conflab，一个集群式配置中心，实现了业务系统配置项的统一管理。配置项存于<code>zookeeper</code>，更新时消息通知对应客户端。客户端需要设置ZK地址，我们把它写入环境变量即可做到零配置。</p>
+<p>服务端conflab-sever管理配置项并推送更新zookeeper；客户端conflab-client端监听<code>zookeeper</code>并更新配置项，业务系统从客户端缓存中获取最新配置项；演示模块conflab-demo是业务系统使用client的一个示例。</p>
+<h2 id="Getting-started"><a href="#Getting-started" class="headerlink" title="Getting started"></a>Getting started</h2><ul>
+<li>配置zookeeper环境变量</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZK_ADDRESS=127.0.0.1:2181</span><br></pre></td></tr></table></figure>
+<ul>
+<li>编译工程</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package -DskipTests=true</span><br></pre></td></tr></table></figure>
+<p>client端编译结果个jar包。server端编译完是一个可以解压运行的zip，目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── application.properties</span><br><span class="line">├── bin</span><br><span class="line">│   ├── start.cmd</span><br><span class="line">│   └── start.sh</span><br><span class="line">├── conflab-server-1.0-SNAPSHOT.jar</span><br><span class="line">├── conflab-server-1.0-SNAPSHOT-sources.jar</span><br><span class="line">├── lib</span><br><span class="line">└── static</span><br><span class="line">    ├── css</span><br><span class="line">    ├── index.html</span><br><span class="line">    ├── js</span><br><span class="line">    ├── lib</span><br><span class="line">    ├── package.json</span><br><span class="line">    └── temp</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动服务端<br><code>bin/start.sh</code> or <code>bin/start.cmd</code>。</li>
+<li>访问服务端主页<br><a href="http://localhost:8080/index.html" target="_blank" rel="noopener">http://localhost:8080/index.html</a></li>
+<li>增删改查推送<br>通过界面增加配置并推送。</li>
+</ul>
+<blockquote>
+<p>测试用url：/t/save</p>
+</blockquote>
+<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="./assets/chart.jpg" alt="`系统结构图`"></p>
+<h2 id="服务端-conflab-server"><a href="#服务端-conflab-server" class="headerlink" title="服务端 conflab-server"></a>服务端 conflab-server</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>bin目录下有start.sh供linux下启动，start.cmd则在windows下启动。启动之后访问<a href="http://localhost:8080/index.html" target="_blank" rel="noopener">http://localhost:8080/index.html</a>就进入了服务端的管理页面。</p>
+<blockquote>
+<p>主页后增加url参数key<code>?key=my</code>等同于在主页搜索框中搜索关键字‘my’。</p>
+</blockquote>
+<p>这类连接可以作为常用收藏到浏览器，访问就可以实现关键字检索，再也不用被不相关的内容干扰了。e.g.团队中没人都有自己的配置，以自己名字作为关键字就是很好的选择。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>因为配置数据都在zookeeper上，需要在服务端主机上配置zookeeper的环境变量，每个客户端也需要配置相同的环境变量。<br>系统常用的配置项在根目录application.properties文件中。这里可以修改端口，数据库类型和数据库连接信息。</p>
+<blockquote>
+<p>注意:使用默认数据库SQLite，当spring.jpa.hibernate.ddl-auto=<code>update</code> 时启动会报错，因此默认配置是<code>create</code>,也就是每次启动都会重新创建新表。建议首次启动表生成之后把这个配置注释掉。这个问题后续版本修改。</p>
+</blockquote>
+<h3 id="工程介绍"><a href="#工程介绍" class="headerlink" title="工程介绍"></a>工程介绍</h3><p>Server端负责更新维护<code>zookeeper</code>，可以通过浏览器快捷的管理更新配置，不直接与client端通信。(也就是说，只要数据结构正确，任何一个zookeeper管理工具都可以代替Server端，例如zooInspector。)</p>
+<p>工程前后端分离，前端是最常见的html+js静态页面，毕竟是小工具，越简单越好。后端使用spring boot,spring mvc,spring data jpa，maven打包。数据库可用SpringDataJpa支持的所有类型，提供了mysql和SQLite配置，大型项目建议用mysql。默认使用SQLite，不用做任何配置。简单。</p>
+<p>系统实现了对配置内容分应用分组管理。支持多系统，系统内按业务分组。以应用为单位更新到zookeeper，与该应用相关的客户端会都收到更新消息。</p>
+<h2 id="客户端-conflab-client"><a href="#客户端-conflab-client" class="headerlink" title="客户端 conflab-client"></a>客户端 conflab-client</h2><p>配置好ZK地址后，业务系统可以很容易得到想要配置项：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String value=Conflab.getString(<span class="string">"key"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>客户端监听Zookeeper的更新事件，默认实现了更新本地配置缓存。其他业务需要可以在回调函数里实现。</p>
+<p>客户端对app（对应zookeeper目录）的监听有两种模式：开发模式和生产模式。</p>
+<ul>
+<li>生产模式比较简单，监听对象固定不变，使用常量即可，例如<code>server</code>。</li>
+<li><p>团队开发模式中，源码都是一样的，每个人却需要各自的配置，配置不能加入版本管理。需要在主机的<code>CONFLAB_HOME</code>目录或用户目录下<code>conflab.properties</code>文件中配置一个或多个对应，如：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server=jacky-server</span><br><span class="line">demo=jacky-demo</span><br></pre></td></tr></table></figure>
+<p>  这样开发环境下server使用jacky-server配置，demo同理。</p>
+</li>
+</ul>
+<p>支持公共配置。公共配置变化时，会更新所有子系统的客户端。</p>
+<p>客户端只是一个jar包，引入到业务系统中即可。使用办法可以参考范例conflab-demo。client也是特别轻，只依赖了logback和zk客户端。简单。</p>
+</div><div class="tags"><a href="/tags/tool/">tool</a></div><div class="post-nav"><a class="pre" href="/2016/11/30/ffmpeg/">ffmpeg</a><a class="next" href="/2016/11/30/lombok/">lombok</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button></div><script>var disqus_shortname = 'chengjk-com';
+var disqus_identifier = '2016/11/30/conflab/';
+var disqus_title = 'conflab';
+var disqus_url = 'http://chengjk.com/2016/11/30/conflab/';
+$('.btn_click_load').click(function() {
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  $('.btn_click_load').css('display','none');
+});
+$.ajax({
+  url: 'https://disqus.com/next/config.json',
+  timeout: 3000,
+  type: 'GET',
+  success: (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $('.btn_click_load').css('display','none');
+  })(),
+  error: function() {
+    $('.btn_click_load').css('display','block');
+  }
+});</script><script id="dsq-count-scr" src="//chengjk-com.disqus.com/count.js" async></script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://chengjk.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/tool/" style="font-size: 15px;">tool</a> <a href="/tags/video/" style="font-size: 15px;">video</a> <a href="/tags/dev/" style="font-size: 15px;">dev</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/exchange/" style="font-size: 15px;">exchange</a> <a href="/tags/study/" style="font-size: 15px;">study</a> <a href="/tags/fun/" style="font-size: 15px;">fun</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/deploy-kit/">Deploy Kit</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/ssh/">SSH学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/iota/">IOTA</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/stock-key-index/">股票常见指标</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/ffmpeg/">ffmpeg</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/conflab/">conflab</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/lombok/">lombok</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/fun/apple/">1000个苹果10个箱子</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/hexo/">hexo</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//chengjk-com.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Jacky's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>
