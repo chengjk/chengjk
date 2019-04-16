@@ -1,6 +1,7 @@
 ---
 title: 股票常见指标 
 date: 2018-04-27 17:13:15
+mathjax: true
 tags: [study]
 ---
 
